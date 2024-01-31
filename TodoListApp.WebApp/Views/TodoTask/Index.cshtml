@@ -20,13 +20,14 @@
 	</div>
 </form>
 
+<!-- To-do Task Table -->
 <table class="table">
 	<thead>
 		<tr>
 			<th id="modelId">
 				@Html.DisplayNameFor(model => model.Id)
 			</th>
-			<th>
+			<th id="modelName">
 				<a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-listId="@ViewData["ListId"]">@Html.DisplayNameFor(model => model.Name)</a>
 			</th>
 			<th id="modelDecs">
