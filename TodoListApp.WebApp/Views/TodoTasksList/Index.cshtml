@@ -17,12 +17,14 @@
 <table class="table">
 	<tbody>
         <tr>
+			<th id="tagId"></th>
             <td>
 				 @foreach (var item in Tags)
 				{
 					<div>
 					| @Html.ActionLink(item.Name.ToString(), "Index", new { tagId = item.Id}) |
 					</div>
+					
 				}
 			</td>
 			| @Html.ActionLink("Show All", "Index", new { tagId = 0}) |
