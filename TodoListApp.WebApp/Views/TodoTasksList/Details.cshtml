@@ -1,0 +1,108 @@
+@model TodoListApp.WebApi.Models.TodoTaskDto
+
+@{
+	ViewData["Title"] = "Details";
+	#pragma warning disable CS8600
+
+	List<TodoListApp.WebApi.Models.TodoTaskCommentDto> Comments = ViewData["CommentsList"] as List<TodoListApp.WebApi.Models.TodoTaskCommentDto>;
+	List<TodoListApp.WebApi.Models.TagsDto> Tags = ViewData["TagsList"] as List<TodoListApp.WebApi.Models.TagsDto>;
+}
+
+<h1>Details</h1>
+
+<div>
+	<hr />
+	<dl class="row">
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Id)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Id)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Name)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Name)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Description)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Description)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.DueDate)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.DueDate)
+		</dd>
+	</dl>
+</div>
+
+<p>
+	<a asp-action="CreateComment" asp-route-taskId="@Model.Id" asp-route-listId="@ViewData["ListId"]">Create New Comment</a>
+</p>
+
+<table class="table2">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Name)
+			</th>
+			<td>
+				| @Html.ActionLink("Add", "AddTag", "TodoTask", new {taskId = Model.Id, listId = ViewData["ListId"]})
+			</td>
+		</tr>
+	</thead>
+	<tbody>
+
+		@foreach (var item in Tags)
+		{
+			<tr )">
+				<td>
+					@Html.DisplayFor(modelItem => item.Name)
+				</td>
+				<td>
+					@Html.ActionLink("Delete", "DeleteTag", "TodoTask",  new { tagId = item.Id, taskId = Model.Id, listId = ViewData["ListId"] })
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Id)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Description)
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+
+		@foreach (var item in Comments)
+		{
+			<tr )">
+				<td>
+					@Html.DisplayFor(modelItem => item.Id)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Description)
+				</td>
+				<td>
+					@Html.ActionLink("Edit", "EditComment", "TodoTask", new { id=item.Id, taskId = Model.Id, listId = ViewData["ListId"]}) |
+					@Html.ActionLink("Delete", "DeleteComment", "TodoTask", new { id = item.Id, taskId = Model.Id, listId = ViewData["ListId"] })
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+<div>
+	| <a asp-action="Index" asp-controller="TodoTasksList" asp-route-listId="@ViewData["ListId"]">Back to Task List</a> |
+</div>

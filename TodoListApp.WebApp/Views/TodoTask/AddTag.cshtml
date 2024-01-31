@@ -1,0 +1,38 @@
+@model IEnumerable<TodoListApp.WebApi.Models.TagsDto>
+
+@{
+    ViewData["Title"] = "AddTag";
+}
+
+<h1>AddTag</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<div>
+	<a asp-action="Details" asp-route-id="@ViewData["TaskId"]" asp-route-listId="@ViewData["ListId"]">Back to List</a>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+					<form asp-action="AddTag" asp-route-tagId="@item.Id" asp-route-taskId="@ViewData["TaskId"]" asp-route-listId="@ViewData["ListId"]">
+						<input type="submit" value="Add" class="btn btn-danger" /> 
+					</form>
+			</td>
+        </tr>
+}
+    </tbody>
+</table>

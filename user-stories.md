@@ -28,11 +28,11 @@ For convenience, user stories are grouped into epics, which contain only user st
 
 #### User Story 1 (US01): View a list of my to-do lists.
 
-As a to-do list user, I want to see a list of all the to-do lists I've created, so I can manage them or view to-do list details.
++ As a to-do list user, I want to see a list of all the to-do lists I've created, so I can manage them or view to-do list details.
 
 #### User Story 2 (US02): Add a new to-do list.
 
-As a to-do list user, I want to create a new to-do list and set its properties (list title and description) so I can manage the one I created or add new tasks to it.
++ As a to-do list user, I want to create a new to-do list and set its properties (list title and description) so I can manage the one I created or add new tasks to it.
 
 #### User Story 3 (US03): Delete a to-do list.
 
