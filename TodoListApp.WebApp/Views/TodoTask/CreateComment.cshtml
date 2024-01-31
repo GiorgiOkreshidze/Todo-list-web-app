@@ -1,0 +1,33 @@
+@model TodoListApp.WebApi.Models.CreateTodoTaskCommentDto
+
+@{
+    ViewData["Title"] = "CreateComment";
+}
+
+<h1>CreateComment</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+		<form asp-action="CreateComment" asp-route-taskId="@ViewData["TaskId"]" asp-route-listId="@ViewData["ListId"]">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+			</div>
+			@Html.HiddenFor(model => model.TaskId, new {taskId = ViewData["TaskId"]})
+        </form>
+    </div>
+</div>
+
+<div>
+	<a asp-action="Details" asp-route-id="@ViewData["TaskId"]" asp-route-listId="@ViewData["ListId"]">Back to Task Details</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
