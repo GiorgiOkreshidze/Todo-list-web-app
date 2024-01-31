@@ -23,22 +23,21 @@
 <table class="table">
 	<thead>
 		<tr>
-			<th>
+			<th id="modelId">
 				@Html.DisplayNameFor(model => model.Id)
 			</th>
 			<th>
 				<a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-listId="@ViewData["ListId"]">@Html.DisplayNameFor(model => model.Name)</a>
 			</th>
-			<th>
+			<th id="modelDecs">
 				@Html.DisplayNameFor(model => model.Description)
 			</th>
-			<th>
+			<th id="modelDue">
 				<a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-listId="@ViewData["ListId"]">@Html.DisplayNameFor(model => model.DueDate)</a>
 			</th>
 			<td>
 				@Html.DisplayNameFor(model => model.Status)
 			</td>
-			<th></th>
 		</tr>
 	</thead>
 	<tbody>
