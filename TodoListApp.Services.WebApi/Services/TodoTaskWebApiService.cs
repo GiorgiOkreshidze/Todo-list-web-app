@@ -1,18 +1,12 @@
 using System.Net.Http.Headers;
 using System.Text;
 using Newtonsoft.Json;
+using TodoListApp.Services.WebApi.Interfaces;
 using TodoListApp.WebApi.Models;
 
-namespace TodoListApp.WebApp.Services;
+namespace TodoListApp.Services.WebApi.Services;
 
-#pragma warning disable CS8600
-#pragma warning disable CS8603
-#pragma warning disable IDE0059
-#pragma warning disable S1075
-#pragma warning disable S1854
-#pragma warning disable S112
-
-public class TodoTaskWebApiService
+public class TodoTaskWebApiService : ITodoTaskWebApiService
 {
     private readonly Uri baseAddress = new Uri("https://localhost:7226/api");
     private readonly HttpClient httpClient;
@@ -49,7 +43,7 @@ public class TodoTaskWebApiService
         return todoTaskDtos;
     }
 
-    internal void CreateTodoTask(CreateTodoTaskDto data)
+    public void CreateTodoTask(CreateTodoTaskDto data)
     {
         string jsonData = JsonConvert.SerializeObject(data);
         StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
@@ -62,7 +56,7 @@ public class TodoTaskWebApiService
         }
     }
 
-    internal UpdateTodoTaskDto GetTodoTaskByIdForUpdate(long id)
+    public UpdateTodoTaskDto GetTodoTaskByIdForUpdate(long id)
     {
         HttpResponseMessage response = this.httpClient.GetAsync(this.httpClient.BaseAddress + "/TodoTask/GetTodoTaskById/" + id).Result;
         UpdateTodoTaskDto todoTaskDto = new UpdateTodoTaskDto();
@@ -80,7 +74,7 @@ public class TodoTaskWebApiService
         return todoTaskDto;
     }
 
-    internal void UpdateTodoTask(UpdateTodoTaskDto data)
+    public void UpdateTodoTask(UpdateTodoTaskDto data)
     {
         string jsonData = JsonConvert.SerializeObject(data);
         StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
@@ -93,7 +87,7 @@ public class TodoTaskWebApiService
         }
     }
 
-    internal TodoTaskDto GetTodoTaskByIdForDelete(long id)
+    public TodoTaskDto GetTodoTaskByIdForDelete(long id)
     {
         HttpResponseMessage response = this.httpClient.GetAsync(this.httpClient.BaseAddress + "/TodoTask/GetTodoTaskById/" + id).Result;
         TodoTaskDto todoTaskDto = new TodoTaskDto();
@@ -111,7 +105,7 @@ public class TodoTaskWebApiService
         return todoTaskDto;
     }
 
-    internal void Delete(long id)
+    public void Delete(long id)
     {
         HttpResponseMessage response = this.httpClient.DeleteAsync(this.httpClient.BaseAddress + "/TodoTask/DeleteTodoTask/" + id).Result;
         if (!response.IsSuccessStatusCode)
@@ -120,7 +114,7 @@ public class TodoTaskWebApiService
         }
     }
 
-    internal IEnumerable<TodoTaskDto> GetTasksByListId(long id)
+    public IEnumerable<TodoTaskDto> GetTasksByListId(long id)
     {
         List<TodoTaskDto> todoTaskDtos = new List<TodoTaskDto>();
 
@@ -139,7 +133,7 @@ public class TodoTaskWebApiService
         return todoTaskDtos;
     }
 
-    internal TodoTaskDto GetTaskById(long id)
+    public TodoTaskDto GetTaskById(long id)
     {
         TodoTaskDto todoTaskDtos = new TodoTaskDto();
 
@@ -159,7 +153,7 @@ public class TodoTaskWebApiService
         return todoTaskDtos;
     }
 
-    internal IEnumerable<TodoTaskFullDetailsDto> GetTodoTasksAssignedToMe()
+    public IEnumerable<TodoTaskFullDetailsDto> GetTodoTasksAssignedToMe()
     {
         List<TodoTaskFullDetailsDto> todoTaskDetailsDtos = new List<TodoTaskFullDetailsDto>();
 
@@ -178,7 +172,7 @@ public class TodoTaskWebApiService
         return todoTaskDetailsDtos;
     }
 
-    internal void MakeItDone(long id)
+    public void MakeItDone(long id)
     {
         string jsonData = JsonConvert.SerializeObject(id);
         StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
@@ -191,7 +185,7 @@ public class TodoTaskWebApiService
     }
 
 
-    internal List<TodoTaskCommentDto> GetComments(long id)
+    public List<TodoTaskCommentDto> GetComments(long id)
     {
         List<TodoTaskCommentDto> todoTaskComments = new List<TodoTaskCommentDto>();
 
@@ -210,7 +204,7 @@ public class TodoTaskWebApiService
         return todoTaskComments;
     }
 
-    internal void CreateComment(CreateTodoTaskCommentDto data)
+    public void CreateComment(CreateTodoTaskCommentDto data)
     {
         string jsonData = JsonConvert.SerializeObject(data);
         StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
@@ -226,7 +220,7 @@ public class TodoTaskWebApiService
 
 
 
-    internal TodoTaskCommentDto GetTodoTaskCommentByIdForDelete(long id)
+    public TodoTaskCommentDto GetTodoTaskCommentByIdForDelete(long id)
     {
         HttpResponseMessage response = this.httpClient.GetAsync(this.httpClient.BaseAddress + "/TodoTaskComment/GetTodoTaskCommentById/" + id).Result;
         TodoTaskCommentDto todoTaskCommentDto = new TodoTaskCommentDto();
@@ -244,7 +238,7 @@ public class TodoTaskWebApiService
         return todoTaskCommentDto;
     }
 
-    internal void DeleteComment(long id)
+    public void DeleteComment(long id)
     {
         HttpResponseMessage response = this.httpClient.DeleteAsync(this.httpClient.BaseAddress + "/TodoTaskComment/DeleteTodoTaskComment/" + id).Result;
         if (!response.IsSuccessStatusCode)
@@ -258,7 +252,7 @@ public class TodoTaskWebApiService
 
 
 
-    internal UpdateTodoTaskCommentDto GetTodoTaskCommentByIdForUpdate(long id)
+    public UpdateTodoTaskCommentDto GetTodoTaskCommentByIdForUpdate(long id)
     {
         HttpResponseMessage response = this.httpClient.GetAsync(this.httpClient.BaseAddress + "/TodoTaskComment/GetTodoTaskCommentById/" + id).Result;
         UpdateTodoTaskCommentDto todoTaskCommentDto = new UpdateTodoTaskCommentDto();
@@ -276,7 +270,7 @@ public class TodoTaskWebApiService
         return todoTaskCommentDto;
     }
 
-    internal void UpdateTodoTaskComment(UpdateTodoTaskCommentDto data)
+    public void UpdateTodoTaskComment(UpdateTodoTaskCommentDto data)
     {
         string jsonData = JsonConvert.SerializeObject(data);
         StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
@@ -288,7 +282,7 @@ public class TodoTaskWebApiService
         }
     }
 
-    internal List<TagsDto> GetAllTags()
+    public List<TagsDto> GetAllTags()
     {
         HttpResponseMessage response = this.httpClient.GetAsync(this.httpClient.BaseAddress + "/TodoTask/GetAllTags/").Result;
         List<TagsDto> Tags = new List<TagsDto>();
@@ -306,7 +300,7 @@ public class TodoTaskWebApiService
         return Tags;
     }
 
-    internal List<TagsDto> GetTagsOfTheTask(long taskId)
+    public List<TagsDto> GetTagsOfTheTask(long taskId)
     {
         HttpResponseMessage response = this.httpClient.GetAsync(this.httpClient.BaseAddress + "/TodoTask/GetTagsOfTheTask/" + taskId).Result;
         List<TagsDto> Tags = new List<TagsDto>();
@@ -324,7 +318,7 @@ public class TodoTaskWebApiService
         return Tags;
     }
 
-    internal void DeleteTag(long tagId, long taskId)
+    public void DeleteTag(long tagId, long taskId)
     {
         HttpResponseMessage response = this.httpClient.DeleteAsync(this.httpClient.BaseAddress + "/TodoTask/RemoveTagFromTheTask/" + taskId + "/" + tagId).Result;
         if (!response.IsSuccessStatusCode)
@@ -333,7 +327,7 @@ public class TodoTaskWebApiService
         }
     }
 
-    internal void AddTag(long tagId, long taskId)
+    public void AddTag(long tagId, long taskId)
     {
         string jsonData = JsonConvert.SerializeObject(tagId);
         StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
@@ -346,7 +340,7 @@ public class TodoTaskWebApiService
     }
 
 
-    internal List<TodoTaskDto> GetTasksByTag(long tagId)
+    public List<TodoTaskDto> GetTasksByTag(long tagId)
     {
         HttpResponseMessage response = this.httpClient.GetAsync(this.httpClient.BaseAddress + "/TodoTask/GetTasksByTag/" + tagId).Result;
         List<TodoTaskDto> todoTasks = new List<TodoTaskDto>();
@@ -364,7 +358,7 @@ public class TodoTaskWebApiService
         return todoTasks;
     }
 
-    internal IEnumerable<TodoTaskDto> FilterTasksByTagIdOrAssignedToMe(bool assignedToMe, long tagId)
+    public IEnumerable<TodoTaskDto> FilterTasksByTagIdOrAssignedToMe(bool assignedToMe, long tagId)
     {
         HttpResponseMessage response = this.httpClient.GetAsync(this.httpClient.BaseAddress + "/TodoTask/GetFilteredTasks/" + assignedToMe + "/" + tagId).Result;
         List<TodoTaskDto> filteredTodoTasks = new List<TodoTaskDto>();

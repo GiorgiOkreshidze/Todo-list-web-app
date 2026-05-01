@@ -2,19 +2,16 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using TodoListApp.WebApi.Models;
 using TodoListApp.WebApp.Models;
-using TodoListApp.WebApp.Services;
+using TodoListApp.Services.WebApi.Interfaces;
 
 namespace TodoListApp.WebApp.Controllers;
-
-#pragma warning disable S4487 // Unread "private" fields should be removed
-#pragma warning disable IDE0052 // Remove unread private members
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly UsersWebApiService authApiService;
+    private readonly IUsersWebApiService authApiService;
 
-    public HomeController(ILogger<HomeController> logger, UsersWebApiService authApiService)
+    public HomeController(ILogger<HomeController> logger, IUsersWebApiService authApiService)
     {
         this._logger = logger;
         this.authApiService = authApiService;

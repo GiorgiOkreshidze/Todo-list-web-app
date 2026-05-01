@@ -1,16 +1,12 @@
 using System.Net.Http.Headers;
 using System.Text;
 using Newtonsoft.Json;
+using TodoListApp.Services.WebApi.Interfaces;
 using TodoListApp.WebApi.Models;
 
-namespace TodoListApp.WebApp.Services;
+namespace TodoListApp.Services.WebApi.Services;
 
-#pragma warning disable CS8600
-#pragma warning disable CS8603
-#pragma warning disable S112
-#pragma warning disable S1075
-
-public class TodoListWebApiService
+public class TodoListWebApiService : ITodoListWebApiService
 {
     private readonly Uri baseAddress = new Uri("https://localhost:7226/api");
     private readonly HttpClient httpClient;
@@ -47,7 +43,7 @@ public class TodoListWebApiService
         return todoListDtos;
     }
 
-    internal void CreateTodoList(TodoListDto data)
+    public void CreateTodoList(TodoListDto data)
     {
         string jsonData = JsonConvert.SerializeObject(data);
         StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
@@ -60,7 +56,7 @@ public class TodoListWebApiService
         }
     }
 
-    internal UpdateTodoListDto GetTodoListByIdForUpdate(long id)
+    public UpdateTodoListDto GetTodoListByIdForUpdate(long id)
     {
         HttpResponseMessage response = this.httpClient.GetAsync(this.httpClient.BaseAddress + "/TodoList/GetTodoListById/" + id).Result;
         UpdateTodoListDto todoListDto;
@@ -78,7 +74,7 @@ public class TodoListWebApiService
         return todoListDto;
     }
 
-    internal TodoListDto GetTodoListByIdForDelete(long id)
+    public TodoListDto GetTodoListByIdForDelete(long id)
     {
         HttpResponseMessage response = this.httpClient.GetAsync(this.httpClient.BaseAddress + "/TodoList/GetTodoListById/" + id).Result;
         TodoListDto todoListDto;
@@ -96,7 +92,7 @@ public class TodoListWebApiService
         return todoListDto;
     }
 
-    internal void UpdateTodoList(UpdateTodoListDto data)
+    public void UpdateTodoList(UpdateTodoListDto data)
     {
         string jsonData = JsonConvert.SerializeObject(data);
         StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
@@ -109,7 +105,7 @@ public class TodoListWebApiService
         }
     }
 
-    internal void Delete(long id)
+    public void Delete(long id)
     {
         HttpResponseMessage response = this.httpClient.DeleteAsync(this.httpClient.BaseAddress + "/TodoList/DeleteTodoList/" + id).Result;
 

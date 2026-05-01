@@ -1,14 +1,12 @@
 using System.Net.Http.Headers;
 using System.Text;
 using Newtonsoft.Json;
+using TodoListApp.Services.WebApi.Interfaces;
 using TodoListApp.WebApi.Models;
 
-namespace TodoListApp.WebApp.Services;
+namespace TodoListApp.Services.WebApi.Services;
 
-#pragma warning disable S1075
-#pragma warning disable S112
-
-public class UsersWebApiService
+public class UsersWebApiService : IUsersWebApiService
 {
     private readonly Uri baseAddress = new Uri("https://localhost:7226/api");
     private readonly HttpClient httpClient;
@@ -56,7 +54,7 @@ public class UsersWebApiService
         }
     }
 
-    internal bool ValidateConnection()
+    public bool ValidateConnection()
     {
         HttpResponseMessage response = this.httpClient.GetAsync(this.httpClient.BaseAddress + "/Auth/ValidateConnection").Result;
 

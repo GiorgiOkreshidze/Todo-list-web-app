@@ -1,15 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using TodoListApp.WebApi.Models;
-using TodoListApp.WebApp.Services;
+using TodoListApp.Services.WebApi.Interfaces;
 
 namespace TodoListApp.WebApp.Controllers;
-#pragma warning disable CS8604 // Possible null reference argument.
 
 public class TodoListController : Controller
 {
-    private readonly TodoListWebApiService apiService;
+    private readonly ITodoListWebApiService apiService;
 
-    public TodoListController(TodoListWebApiService apiService)
+    public TodoListController(ITodoListWebApiService apiService)
     {
         this.apiService = apiService;
     }
