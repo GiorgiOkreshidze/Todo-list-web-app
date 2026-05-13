@@ -2,7 +2,7 @@
 
 @{
 	ViewData["Title"] = "Details";
-	
+
 	#pragma warning disable CS8600
 	List<TodoListApp.WebApi.Models.TodoTaskCommentDto> Comments = ViewData["CommentsList"] as List<TodoListApp.WebApi.Models.TodoTaskCommentDto>;
 	List<TodoListApp.WebApi.Models.TagsDto> Tags = ViewData["TagsList"] as List<TodoListApp.WebApi.Models.TagsDto>;
@@ -58,14 +58,14 @@
 	</thead>
 	<tbody>
 
-		@foreach (var item in Tags)
+		@foreach (var tag in Tags)
 		{
-			<tr )">
+			<tr>
 				<td>
-					@Html.DisplayFor(modelItem => item.Name)
+					@Html.DisplayFor(modelItem => tag.Name)
 				</td>
 				<td>
-					@Html.ActionLink("Delete", "DeleteTag", new { tagId = item.Id, taskId = Model.Id, listId = ViewData["ListId"] })
+					@Html.ActionLink("Delete", "DeleteTag", new { tagId = tag.Id, taskId = Model.Id, listId = ViewData["ListId"] })
 				</td>
 			</tr>
 		}
@@ -88,7 +88,7 @@
 
 		@foreach (var item in Comments)
 		{
-			<tr )">
+			<tr>
 				<td>
 					@Html.DisplayFor(modelItem => item.Id)
 				</td>

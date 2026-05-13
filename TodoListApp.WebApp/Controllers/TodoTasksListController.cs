@@ -7,11 +7,11 @@ namespace TodoListApp.WebApp.Controllers;
 
 public class TodoTasksListController : Controller
 {
-    private readonly ITodoTaskWebApiService apiService;
+    private readonly ITodoTaskWebApiService _apiService;
 
     public TodoTasksListController(ITodoTaskWebApiService apiService)
     {
-        this.apiService = apiService;
+        this._apiService = apiService;
     }
 
     public ActionResult Index(long tagId, string sortOrder, string searchString, bool assignedToMe)
@@ -26,11 +26,11 @@ public class TodoTasksListController : Controller
 
         try
         {
-            this.apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
+            this._apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
 
-            this.ViewData["TagsList"] = this.apiService.GetAllTags();
+            this.ViewData["TagsList"] = this._apiService.GetAllTags();
 
-            filteredTodoTasksDto = this.apiService.FilterTasksByTagIdOrAssignedToMe(assignedToMe, tagId);
+            filteredTodoTasksDto = this._apiService.FilterTasksByTagIdOrAssignedToMe(assignedToMe, tagId);
         }
         catch (ApplicationException ex)
         {
@@ -74,13 +74,13 @@ public class TodoTasksListController : Controller
 
         try
         {
-            this.apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
+            this._apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
 
-            todoTaskDto = this.apiService.GetTaskById(id);
+            todoTaskDto = this._apiService.GetTaskById(id);
 
-            this.ViewData["CommentsList"] = this.apiService.GetComments(id);
+            this.ViewData["CommentsList"] = this._apiService.GetComments(id);
 
-            this.ViewData["TagsList"] = this.apiService.GetTagsOfTheTask(id);
+            this.ViewData["TagsList"] = this._apiService.GetTagsOfTheTask(id);
         }
         catch (ApplicationException ex)
         {

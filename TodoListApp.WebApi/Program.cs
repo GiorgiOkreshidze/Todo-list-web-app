@@ -2,30 +2,26 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using TodoListApp.Services;
-using TodoListApp.Services.Database;
+using TodoListApp.Services.Database.TodoDatabase;
+using TodoListApp.Services.Database.TodoDatabase.Services;
+using TodoListApp.Services.Database.UsersDatabase;
+using TodoListApp.Services.Database.UsersDatabase.Services;
+using TodoListApp.Services.Interfaces.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 
 builder.Services.AddControllers();
 
 builder.Services.AddDbContext<TodoListDbContext>(options =>
-{
-    _ = options.UseSqlServer(builder.Configuration.GetConnectionString("TodoListDbConnection"));
-});
+    options.UseSqlServer(builder.Configuration.GetConnectionString("TodoListDbConnection")));
 builder.Services.AddDbContext<UsersDbContext>(options =>
-{
-    _ = options.UseSqlServer(builder.Configuration.GetConnectionString("UsersDbConnection"));
-});
+    options.UseSqlServer(builder.Configuration.GetConnectionString("UsersDbConnection")));
 
 builder.Services.AddScoped<ITodoListService, TodoListDatabaseService>();
 builder.Services.AddScoped<ITodoTaskService, TodoTaskDatabaseService>();
 builder.Services.AddScoped<ITodoTaskCommentsService, TodoTaskCommentDatabaseService>();
 builder.Services.AddScoped<IUsersService, UsersDatabaseService>();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -42,11 +38,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    _ = app.UseSwagger();
-    _ = app.UseSwaggerUI();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseAuthentication();

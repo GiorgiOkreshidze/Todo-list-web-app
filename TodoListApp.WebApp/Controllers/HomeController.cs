@@ -9,23 +9,21 @@ namespace TodoListApp.WebApp.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly IUsersWebApiService authApiService;
+    private readonly IUsersWebApiService _authApiService;
 
     public HomeController(ILogger<HomeController> logger, IUsersWebApiService authApiService)
     {
         this._logger = logger;
-        this.authApiService = authApiService;
+        this._authApiService = authApiService;
     }
 
     public IActionResult Index()
     {
         bool isActive = false;
-
-        string token = this.HttpContext.Session.GetString("JWT")!;
-        if (token != null)
+        if (this.HttpContext.Session.GetString("JWT") is { } token)
         {
-            this.authApiService.SetBearerToken(token);
-            isActive = this.authApiService.ValidateConnection();
+            this._authApiService.SetBearerToken(token);
+            isActive = this._authApiService.ValidateConnection();
         }
 
         if (isActive)
@@ -40,7 +38,11 @@ public class HomeController : Controller
     [ResponseCache(Duration = 1, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error(string errorMessage)
     {
-        return this.View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier, ErrorMessage = errorMessage });
+        return this.View(new ErrorViewModel
+        {
+            RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier,
+            ErrorMessage = errorMessage
+        });
     }
 
 
@@ -50,10 +52,11 @@ public class HomeController : Controller
         string token;
         try
         {
-            token = this.authApiService.LoginUser(user);
+            token = this._authApiService.LoginUser(user);
         }
         catch (ApplicationException ex)
         {
+            this._logger.LogError(ex.Message, "Failed to login");
             return this.RedirectToAction("Error", new { errorMessage = ex.Message });
         }
 
@@ -73,10 +76,11 @@ public class HomeController : Controller
     {
         try
         {
-            this.authApiService.Register(user);
+            this._authApiService.Register(user);
         }
         catch (ApplicationException ex)
         {
+            this._logger.LogError(ex.Message, "Failed to Register");
             return this.RedirectToAction("Error", new { errorMessage = ex.Message });
         }
 

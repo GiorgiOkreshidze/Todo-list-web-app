@@ -6,11 +6,11 @@ namespace TodoListApp.WebApp.Controllers;
 
 public class TodoListController : Controller
 {
-    private readonly ITodoListWebApiService apiService;
+    private readonly ITodoListWebApiService _apiService;
 
     public TodoListController(ITodoListWebApiService apiService)
     {
-        this.apiService = apiService;
+        this._apiService = apiService;
     }
 
     public IActionResult Index()
@@ -19,8 +19,8 @@ public class TodoListController : Controller
         try
         {
 
-            this.apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
-            todoListDtos = this.apiService.GetTodoLists();
+            this._apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
+            todoListDtos = this._apiService.GetTodoLists();
 
         }
         catch (ApplicationException ex)
@@ -45,8 +45,8 @@ public class TodoListController : Controller
     {
         try
         {
-            this.apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
-            this.apiService.CreateTodoList(data);
+            this._apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
+            this._apiService.CreateTodoList(data);
 
         }
         catch (ApplicationException ex)
@@ -66,8 +66,8 @@ public class TodoListController : Controller
         UpdateTodoListDto todoListData;
         try
         {
-            this.apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
-            todoListData = this.apiService.GetTodoListByIdForUpdate(id);
+            this._apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
+            todoListData = this._apiService.GetTodoListByIdForUpdate(id);
 
         }
         catch (ApplicationException ex)
@@ -86,8 +86,8 @@ public class TodoListController : Controller
     {
         try
         {
-            this.apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
-            this.apiService.UpdateTodoList(data);
+            this._apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
+            this._apiService.UpdateTodoList(data);
 
         }
         catch (ApplicationException ex)
@@ -107,8 +107,8 @@ public class TodoListController : Controller
         TodoListDto todoListData;
         try
         {
-            this.apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
-            todoListData = this.apiService.GetTodoListByIdForDelete(id);
+            this._apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
+            todoListData = this._apiService.GetTodoListByIdForDelete(id);
 
         }
         catch (ApplicationException ex)
@@ -126,8 +126,8 @@ public class TodoListController : Controller
     {
         try
         {
-            this.apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
-            this.apiService.Delete(id);
+            this._apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
+            this._apiService.Delete(id);
 
         }
         catch (ApplicationException ex)

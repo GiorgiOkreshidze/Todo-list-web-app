@@ -3,7 +3,8 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using TodoListApp.Services;
+using TodoListApp.Services.Domain;
+using TodoListApp.Services.Interfaces.Repository;
 using TodoListApp.WebApi.Models;
 
 namespace TodoListApp.WebApi.Controllers;

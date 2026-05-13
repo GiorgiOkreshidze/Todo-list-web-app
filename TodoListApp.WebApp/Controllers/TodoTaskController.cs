@@ -7,11 +7,11 @@ namespace TodoListApp.WebApp.Controllers;
 
 public class TodoTaskController : Controller
 {
-    private readonly ITodoTaskWebApiService apiService;
+    private readonly ITodoTaskWebApiService _apiService;
 
     public TodoTaskController(ITodoTaskWebApiService apiService)
     {
-        this.apiService = apiService;
+        this._apiService = apiService;
     }
 
     public IActionResult Index(long listId, string sortOrder, string searchString)
@@ -25,9 +25,9 @@ public class TodoTaskController : Controller
 
         try
         {
-            this.apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
+            this._apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
 
-            todoTaskDtos = this.apiService.GetTasksByListId(listId);
+            todoTaskDtos = this._apiService.GetTasksByListId(listId);
 
         }
         catch (ApplicationException ex)
@@ -76,9 +76,9 @@ public class TodoTaskController : Controller
     {
         try
         {
-            this.apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
+            this._apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
 
-            this.apiService.CreateTodoTask(data);
+            this._apiService.CreateTodoTask(data);
 
         }
         catch (ApplicationException ex)
@@ -101,9 +101,9 @@ public class TodoTaskController : Controller
 
         try
         {
-            this.apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
+            this._apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
 
-            todoTaskData = this.apiService.GetTodoTaskByIdForUpdate(id);
+            todoTaskData = this._apiService.GetTodoTaskByIdForUpdate(id);
 
         }
         catch (ApplicationException ex)
@@ -121,9 +121,9 @@ public class TodoTaskController : Controller
     {
         try
         {
-            this.apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
+            this._apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
 
-            this.apiService.UpdateTodoTask(data);
+            this._apiService.UpdateTodoTask(data);
 
         }
         catch (ApplicationException ex)
@@ -141,9 +141,9 @@ public class TodoTaskController : Controller
     {
         try
         {
-            this.apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
+            this._apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
 
-            this.apiService.MakeItDone(id);
+            this._apiService.MakeItDone(id);
         }
         catch (ApplicationException ex)
         {
@@ -165,9 +165,9 @@ public class TodoTaskController : Controller
 
         try
         {
-            this.apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
+            this._apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
 
-            todoTaskData = this.apiService.GetTodoTaskByIdForDelete(id);
+            todoTaskData = this._apiService.GetTodoTaskByIdForDelete(id);
 
         }
         catch (ApplicationException ex)
@@ -186,9 +186,9 @@ public class TodoTaskController : Controller
     {
         try
         {
-            this.apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
+            this._apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
 
-            this.apiService.Delete(id);
+            this._apiService.Delete(id);
         }
         catch (ApplicationException ex)
         {
@@ -210,11 +210,11 @@ public class TodoTaskController : Controller
 
         try
         {
-            this.apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
-            todoTaskDto = this.apiService.GetTaskById(id);
-            this.ViewData["CommentsList"] = this.apiService.GetComments(id);
+            this._apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
+            todoTaskDto = this._apiService.GetTaskById(id);
+            this.ViewData["CommentsList"] = this._apiService.GetComments(id);
 
-            this.ViewData["TagsList"] = this.apiService.GetTagsOfTheTask(id);
+            this.ViewData["TagsList"] = this._apiService.GetTagsOfTheTask(id);
         }
         catch (ApplicationException ex)
         {
@@ -243,8 +243,8 @@ public class TodoTaskController : Controller
     {
         try
         {
-            this.apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
-            this.apiService.CreateComment(data);
+            this._apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
+            this._apiService.CreateComment(data);
         }
         catch (ApplicationException ex)
         {
@@ -267,8 +267,8 @@ public class TodoTaskController : Controller
 
         try
         {
-            this.apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
-            todoTaskCommentData = this.apiService.GetTodoTaskCommentByIdForDelete(id);
+            this._apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
+            todoTaskCommentData = this._apiService.GetTodoTaskCommentByIdForDelete(id);
         }
         catch (ApplicationException ex)
         {
@@ -286,8 +286,8 @@ public class TodoTaskController : Controller
     {
         try
         {
-            this.apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
-            this.apiService.DeleteComment(id);
+            this._apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
+            this._apiService.DeleteComment(id);
         }
         catch (ApplicationException ex)
         {
@@ -310,8 +310,8 @@ public class TodoTaskController : Controller
 
         try
         {
-            this.apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
-            todoTaskCommentData = this.apiService.GetTodoTaskCommentByIdForUpdate(id);
+            this._apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
+            todoTaskCommentData = this._apiService.GetTodoTaskCommentByIdForUpdate(id);
         }
         catch (ApplicationException ex)
         {
@@ -330,8 +330,8 @@ public class TodoTaskController : Controller
 
         try
         {
-            this.apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
-            this.apiService.UpdateTodoTaskComment(data);
+            this._apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
+            this._apiService.UpdateTodoTaskComment(data);
         }
         catch (ApplicationException ex)
         {
@@ -349,8 +349,8 @@ public class TodoTaskController : Controller
     {
         try
         {
-            this.apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
-            this.apiService.DeleteTag(tagId, taskId);
+            this._apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
+            this._apiService.DeleteTag(tagId, taskId);
         }
         catch (ApplicationException ex)
         {
@@ -374,9 +374,9 @@ public class TodoTaskController : Controller
 
         try
         {
-            this.apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
-            tags = this.apiService.GetAllTags();
-            tagsOfTheTask = this.apiService.GetTagsOfTheTask(taskId);
+            this._apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
+            tags = this._apiService.GetAllTags();
+            tagsOfTheTask = this._apiService.GetTagsOfTheTask(taskId);
         }
         catch (ApplicationException ex)
         {
@@ -398,8 +398,8 @@ public class TodoTaskController : Controller
 
         try
         {
-            this.apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
-            this.apiService.AddTag(tagId, taskId);
+            this._apiService.SetBearerToken(this.HttpContext.Session.GetString("JWT"));
+            this._apiService.AddTag(tagId, taskId);
         }
         catch (ApplicationException ex)
         {
