@@ -91,7 +91,7 @@
 
                         @foreach (var item in Model)
                         {
-                            bool isOverdue = item.DueDate < DateTime.Now && !item.Status; // Added !item.Status so completed tasks don't stay red!
+                            bool isOverdue = item.DueDate < DateTime.Now && !item.Status;
                             string rowClass = isOverdue ? "table-danger" : "";
 
                             <tr class="border-bottom @rowClass">
@@ -117,7 +117,7 @@
                                         <a asp-action="Details"
                                            asp-route-id="@item.Id"
                                            asp-route-listId="@ViewData["ListId"]"
-                                           class="btn btn-outline-secondary btn-sm rounded-2 lpx-3">
+                                           class="btn btn-outline-secondary btn-sm rounded-2 px-3">
                                             Details
                                         </a>
 
