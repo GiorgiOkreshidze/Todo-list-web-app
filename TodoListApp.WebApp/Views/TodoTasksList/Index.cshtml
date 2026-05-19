@@ -84,11 +84,17 @@
                             <th class="py-3 text-uppercase text-muted fw-bold small col-1 text-center">
                                 @Html.DisplayNameFor(model => model.Status)
                             </th>
+                            <th class="p-3 text-end text-uppercase text-muted fw-bold small">
+                                Actions
+                            </th>
                         </tr>
 
                         @foreach (var item in Model)
                         {
-                            <tr class="border-bottom" style="@(item.DueDate < DateTime.Now ? "background:red" : "background:none")">
+                            bool isOverdue = item.DueDate < DateTime.Now && !item.Status; // Added !item.Status so completed tasks don't stay red!
+                            string rowClass = isOverdue ? "table-danger" : "";
+
+                            <tr class="border-bottom @rowClass">
                                 <td class="font-monospace text-secondary small text-center">
                                     @Html.DisplayFor(modelItem => item.Id)
                                 </td>
@@ -107,10 +113,22 @@
                                     @Html.DisplayFor(modelItem  => item.Status)
                                 </td>
                                 <td class="text-center">
-                                    @Html.ActionLink("Details", "Details", new { id=item.Id, listId = ViewData["ListId"] })
-                                </td>
-                                <td class="text-center">
-                                    <input type="button" value="Complete" onclick="location.href='@Url.Action("MakeItDone", "TodoTask", new { id = item.Id, listId = ViewData["ListId"]})'" />
+                                    <div class="d-inline-flex gap-2 justify-content-center align-items-center">
+                                        <a asp-action="Details"
+                                           asp-route-id="@item.Id"
+                                           asp-route-listId="@ViewData["ListId"]"
+                                           class="btn btn-outline-secondary btn-sm rounded-2 lpx-3">
+                                            Details
+                                        </a>
+
+                                        @if (!item.Status)
+                                        {
+                                            <input type="button"
+                                                   value="Complete"
+                                                   class="btn btn-primary btn-sm rounded-2 px-3"
+                                                   onclick="location.href='@Url.Action("MakeItDone", "TodoTask", new { id = item.Id, listId = ViewData["ListId"]})'" />
+                                        }
+                                    </div>
                                 </td>
                             </tr>
                         }
