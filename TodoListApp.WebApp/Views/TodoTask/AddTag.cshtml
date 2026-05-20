@@ -1,40 +1,53 @@
 @model IEnumerable<TodoListApp.WebApi.Models.TagsDto>
 
 @{
-    ViewData["Title"] = "AddTag";
+    ViewData["Title"] = "Add Tag";
 }
-
-<h1>AddTag</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<div>
-	<a asp-action="Details" asp-route-id="@ViewData["TaskId"]" asp-route-listId="@ViewData["ListId"]">Back to List</a>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+        <div>
+            <h1 class="fw-bold text-dark mb-0">Add Tag</h1>
+        </div>
+        <div>
+            <a asp-action="Details"
+               asp-route-id="@ViewData["TaskId"]"
+               asp-route-listId="@ViewData["ListId"]"
+               class="btn btn-outline-secondary rounded-pill px-3 shadow-sm fw-bold">
+                <i class="bi bi-arrow-left me-2"></i>Back to Details
+            </a>
+        </div>
+    </div>
+    <div class="card border-0 shadow-lg rounded-3 overflow-hidden mt-5">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                    <tr class="table-light">
+                        <th class="ps-4 py-3 text-uppercase text-muted fw-bold small col-6">
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th class="py-3 text-center text-uppercase text-muted fw-bold small">
+                            Action
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="border-bottom">
+                            <td class="ps-4 font-monospace text-secondary small">
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td class="text-center">
+                                <form asp-action="AddTag" asp-route-tagId="@item.Id" asp-route-taskId="@ViewData["TaskId"]" asp-route-listId="@ViewData["ListId"]">
+                                    <input type="submit" value="Add" class="btn btn-danger"/>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
-
-<!-- Tags Table -->
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-					<form asp-action="AddTag" asp-route-tagId="@item.Id" asp-route-taskId="@ViewData["TaskId"]" asp-route-listId="@ViewData["ListId"]">
-						<input type="submit" value="Add" class="btn btn-danger" /> 
-					</form>
-			</td>
-        </tr>
-}
-    </tbody>
-</table>

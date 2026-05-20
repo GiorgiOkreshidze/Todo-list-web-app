@@ -7,133 +7,139 @@
     bool notAssignedToMeState = !(bool)ViewData["AssignedToMe"];
 }
 
-<div class="container mt-5">
-    <div class="justify-content-center align-items-center mb-4">
-        <div class="d-flex justify-content-between align-items-center">
-            <div class="p-3 col-6">
-                <h1 class="fw-bold text-dark mb-1">Tasks List</h1>
-            </div>
+<div class="container mt-5 mb-4">
+    <div class="container px-0">
+        <div class="py-3">
+            <h1 class="fw-bold mb-0">Tasks List</h1>
         </div>
+    </div>
 
-        <div class="d-flex flex-wrap gap-2 mb-4 justify-content-between">
-            <div>
-                <a asp-action="Index" asp-route-tagId="0"
-                   class="btn rounded-pill px-3 @((long)ViewData["TagId"] == 0 ? "btn-primary" : "btn-secondary")">
-                    Show All
+    <div class="d-flex flex-wrap gap-2 mb-4 justify-content-between">
+        <div>
+            <a asp-action="Index" asp-route-tagId="0"
+               class="btn rounded-pill px-3 @((long)ViewData["TagId"] == 0 ? "btn-primary" : "btn-secondary")">
+                Show All
+            </a>
+
+            @foreach (var item in Tags)
+            {
+                bool isSelected = item.Id == (long)ViewData["TagId"];
+
+                <a asp-action="Index"
+                   asp-route-tagId="@item.Id"
+                   class="btn rounded-pill px-3 @(isSelected ? "btn-primary" : "btn-secondary")">
+                    @item.Name
                 </a>
-
-                @foreach (var item in Tags)
-                {
-                    bool isSelected = item.Id == (long)ViewData["TagId"];
-
-                    <a asp-action="Index" asp-route-tagId="@item.Id"
-                       class="btn rounded-pill px-3 @(isSelected ? "btn-primary" : "btn-secondary")">
-                        @item.Name
-                    </a>
-                }
-            </div>
-
-            <div class="col-auto">
-                <input type="button"
-                       class="btn btn-outline-primary rounded-2 px-3"
-                       value="Assign To Me"
-                       onclick="location.href='@Url.Action("Index", new { tagId = @ViewData["TagId"], assignedToMe = notAssignedToMeState })'"/>
-            </div>
+            }
         </div>
 
-        <form asp-action="Index" method="get">
-            <div class="input-group mb-3">
-                <input type="text"
-                       name="SearchString"
-                       class="form-control"
-                       placeholder="Search by Name"
-                       aria-label="Search"
-                       aria-describedby="button-addon2"
-                       value="@ViewData["CurrentFilter"]"
-                       />
-                <button class="btn btn-outline-secondary"
-                        type="submit"
-                        id="button-addon2">
-                    Button
-                </button>
-            </div>
-        </form>
+        <a asp-action="Index"
+           asp-route-tagId=@ViewData["TagId"]
+           asp-route-assignedToMe="@notAssignedToMeState"
+           class="btn btn-outline-primary rounded-2 px-3">
+            Assign to Me
+        </a>
+    </div>
 
-        <div class="card border-0 shadow-lg rounded-3 overflow-hidden">
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <tr class="table-light border-bottom">
-                            <th class="py-3 text-uppercase text-muted fw-bold small col-1 text-center">
-                                @Html.DisplayNameFor(model => model.Id)
-                            </th>
-                            <th class="py-3 text-uppercase text-muted fw-bold small col-3 text-center">
-                                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]"
-                                   class="text-decoration-none">
-                                    @Html.DisplayNameFor(model => model.Name)
-                                </a>
-                            </th>
-                            <th class="py-3 text-uppercase text-muted fw-bold small col-4 text-center">
-                                @Html.DisplayNameFor(model => model.Description)
-                            </th>
-                            <th class="py-3 text-uppercase text-muted fw-bold small col-3 text-center">
-                                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">
-                                    @Html.DisplayNameFor(model => model.DueDate)
-                                </a>
-                            </th>
-                            <th class="py-3 text-uppercase text-muted fw-bold small col-1 text-center">
-                                @Html.DisplayNameFor(model => model.Status)
-                            </th>
-                            <th class="p-3 text-end text-uppercase text-muted fw-bold small">
-                                Actions
-                            </th>
-                        </tr>
+    <form asp-action="Index" method="get">
+        <div class="input-group mb-3">
+            <input type="text"
+                   name="SearchString"
+                   class="form-control"
+                   placeholder="Search by Name"
+                   aria-label="Search"
+                   aria-describedby="task-search-submit"
+                   value="@ViewData["CurrentFilter"]"
+                   />
+            <button class="btn btn-outline-secondary"
+                    type="submit"
+                    id="task-search-submit">
+                <i class="bi bi-search"></i>
+            </button>
+        </div>
+    </form>
 
-                        @foreach (var item in Model)
-                        {
-                            bool isOverdue = item.DueDate < DateTime.Now && !item.Status;
-                            string rowClass = isOverdue ? "table-danger" : "";
+    <div class="card border-0 shadow-lg rounded-3 overflow-hidden">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                    <tr class="table-light border-bottom">
+                        <th class="ps-4 py-3 text-uppercase text-muted fw-bold small col-1">
+                            @Html.DisplayNameFor(model => model.Id)
+                        </th>
+                        <th class="py-3 text-uppercase text-muted fw-bold small col-3">
+                            <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]"
+                               class="text-decoration-none">
+                                @Html.DisplayNameFor(model => model.Name)
+                            </a>
+                        </th>
+                        <th class="py-3 text-uppercase text-muted fw-bold small col-4">
+                            @Html.DisplayNameFor(model => model.Description)
+                        </th>
+                        <th class="py-3 text-uppercase text-muted fw-bold small col-3">
+                            <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">
+                                @Html.DisplayNameFor(model => model.DueDate)
+                            </a>
+                        </th>
+                        <th class="py-3 text-uppercase text-muted fw-bold small col-1">
+                            @Html.DisplayNameFor(model => model.Status)
+                        </th>
+                        <th class="py-3 text-center text-uppercase text-muted fw-bold small">
+                            Actions
+                        </th>
+                    </tr>
+                    </thead>
 
-                            <tr class="border-bottom @rowClass">
-                                <td class="font-monospace text-secondary small text-center">
-                                    @Html.DisplayFor(modelItem => item.Id)
-                                </td>
-                                <td class="fw-bold text-dark fs-6 text-center">
-                                    @Html.DisplayFor(modelItem => item.Name)
-                                </td>
-                                <td>
-                                    <span class="text-secondary text-truncate d-inline-block w-100 text-center">
-                                        @Html.DisplayFor(modelItem => item.Description)
-                                    </span>
-                                </td>
-                                <td class="fw-bold text-dark fs-6 text-center">
-                                    @Html.DisplayFor(modelItem => item.DueDate)
-                                </td>
-                                <td class="text-center">
-                                    @Html.DisplayFor(modelItem  => item.Status)
-                                </td>
-                                <td class="text-center">
-                                    <div class="d-inline-flex gap-2 justify-content-center align-items-center">
-                                        <a asp-action="Details"
+                    <tbody>
+                    @foreach (var item in Model)
+                    {
+                        bool isOverdue = item.DueDate < DateTime.Now && !item.Status;
+                        string rowClass = isOverdue ? "table-danger" : "";
+
+                        <tr class="border-bottom @rowClass">
+                            <td class="ps-4 font-monospace text-secondary small">
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td class="fw-bold text-dark fs-6">
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                <span class="text-secondary text-truncate d-inline-block w-100">
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </span>
+                            </td>
+                            <td class="fw-bold text-dark fs-6">
+                                @Html.DisplayFor(modelItem => item.DueDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Status)
+                            </td>
+                            <td class="text-center">
+                                <div class="d-inline-flex gap-2 justify-content-center align-items-center">
+                                    <a asp-action="Details"
+                                       asp-route-id="@item.Id"
+                                       asp-route-listId="@ViewData["ListId"]"
+                                       class="btn btn-outline-secondary btn-sm rounded-2 px-3">
+                                        Details
+                                    </a>
+
+                                    @if (!item.Status)
+                                    {
+                                        <a asp-action="MakeItDone"
+                                           asp-controller="TodoTask"
                                            asp-route-id="@item.Id"
                                            asp-route-listId="@ViewData["ListId"]"
-                                           class="btn btn-outline-secondary btn-sm rounded-2 px-3">
-                                            Details
+                                           class="btn btn-primary btn-sm rounded-2 px-3">
+                                            Complete
                                         </a>
-
-                                        @if (!item.Status)
-                                        {
-                                            <input type="button"
-                                                   value="Complete"
-                                                   class="btn btn-primary btn-sm rounded-2 px-3"
-                                                   onclick="location.href='@Url.Action("MakeItDone", "TodoTask", new { id = item.Id, listId = ViewData["ListId"]})'" />
-                                        }
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    </table>
-                </div>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

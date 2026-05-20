@@ -4,7 +4,6 @@ using TodoListApp.Services.WebApi.Interfaces;
 
 namespace TodoListApp.WebApp.Controllers;
 
-
 public class TodoTasksListController : Controller
 {
     private readonly ITodoTaskWebApiService _apiService;

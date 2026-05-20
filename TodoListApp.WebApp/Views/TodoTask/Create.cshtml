@@ -4,38 +4,45 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-body p-5 text-center">
+                    <h2 class="fw-bold mb-4">Create</h2>
+                    <form asp-action="Create"
+                          asp-route-listId="@ViewData["ListId"]">
+                        <div asp-validation-summary="ModelOnly" class="text-danger small"></div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Name" class="form-control" placeholder="Name"/>
+                            <label asp-for="Name">Name</label>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input asp-for="Description" class="form-control" placeholder="Description"/>
+                            <label asp-for="Description">Description</label>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating mb-4">
+                            <input asp-for="DueDate" class="form-control" placeholder="Due Date"/>
+                            <label asp-for="DueDate">Due Date</label>
+                            <span asp-validation-for="DueDate" class="text-danger"></span>
+                        </div>
+                        @Html.HiddenFor(model => model.ListId, new {listId = ViewData["ListId"]})
+                        <button type="submit" class="btn btn-primary btn-lg w-100 mb-3 shadow-sm">Create</button>
+                    </form>
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-		<form asp-action="Create" asp-route-listId="@ViewData["ListId"]">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                    <div>
+                        <a asp-action="Index"
+                           asp-route-listId="@ViewData["ListId"]"
+                           class="btn btn-outline-secondary w-100 text-decoration-none">
+                            Back to List
+                        </a>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DueDate" class="control-label"></label>
-                <input asp-for="DueDate" class="form-control" />
-                <span asp-validation-for="DueDate" class="text-danger"></span>
-			</div>
-			@Html.HiddenFor(model => model.ListId, new {listId = ViewData["ListId"]})
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
-<div>
-	<a asp-action="Index" asp-route-listId="@ViewData["ListId"]">Back to To-do Task List</a>
 </div>
 
 @section Scripts {

@@ -3,29 +3,59 @@
 @{
     ViewData["Title"] = "DeleteComment";
 }
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card border-0 shadow-lg rounded-3 overflow-hidden">
+                <div class="bg-danger text-danger p-4 text-center">
+                    <h3 class="text-white fw-bold mb-1">Delete Comment?</h3>
+                    <p class="text-white small mb-0">This action can not be undone.</p>
+                </div>
 
-<h1>DeleteComment</h1>
+                <div class="card-body p-4">
+                    <p class="text-muted text-center mb-4">
+                        Are you sure you want to permanently delete the following comment?
+                    </p>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-    </dl>
+                    <div class="bg-light p-3 rounded-3 mb-4 text-center">
+                        <div class="border border-secondary rounded-3 p-3 mb-4">
+                            <div class="mb-3">
+                                <label class="text-uppercase text-muted fw-bold small d-block mb-1">
+                                    @Html.DisplayNameFor(model => model.Id)
+                                </label>
+                                <span class="fs-5 fw-bold text-dark">
+                                    @Html.DisplayFor(model => model.Id)
+                                </span>
+                            </div>
 
-	<form asp-action="DeleteComment" asp-route-taskId="@ViewData["TaskId"]" asp-route-listId="@ViewData["ListId"]">
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-		<a asp-action="Details" asp-route-id="@ViewData["TaskId"]" asp-route-listId="@ViewData["ListId"]">Back to Task Details</a>
-    </form>
+                            <div class="mb-4">
+                                <label class="text-uppercase text-muted fw-bold small d-block mb-1">
+                                    @Html.DisplayNameFor(model => model.Description)
+                                </label>
+                                <p class="text-secondary mb-0">
+                                    @Html.DisplayFor(model => model.Description)
+                                </p>
+                            </div>
+                        </div>
+
+                        <form asp-action="DeleteComment"
+                              asp-route-taskId="@ViewData["TaskId"]"
+                              asp-route-listId="@ViewData["ListId"]">
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-danger btn-lg fw-bold shadow-lg mb-3">
+                                    Yes, Delete Comment
+                                </button>
+                                <a asp-action="Details"
+                                   asp-route-id="@ViewData["TaskId"]"
+                                   asp-route-listId="@ViewData["ListId"]"
+                                   class="btn btn-link btn-outline-secondary text-secondary text-decoration-none text-center mt-1">
+                                    Cancel and Go Back
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

@@ -3,109 +3,177 @@
 @{
 	ViewData["Title"] = "Details";
 
-	#pragma warning disable CS8600
+
 	List<TodoListApp.WebApi.Models.TodoTaskCommentDto> Comments = ViewData["CommentsList"] as List<TodoListApp.WebApi.Models.TodoTaskCommentDto>;
 	List<TodoListApp.WebApi.Models.TagsDto> Tags = ViewData["TagsList"] as List<TodoListApp.WebApi.Models.TagsDto>;
 }
 
-<h1>Details</h1>
 
-<div>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DueDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DueDate)
-        </dd>
-    </dl>
-</div>
+<div class="container mt-5 mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+        <div>
+            <h1 class="fw-bold text-dark mb-0">Task Details</h1>
+        </div>
+        <div>
+            <a asp-action="Index"
+               asp-controller="TodoTask"
+               asp-route-listId="@ViewData["ListId"]"
+               class="btn btn-outline-secondary rounded-pill px-3 shadow-sm fw-bold">
+                <i class="bi bi-arrow-left me-2"></i>Back to Tasks
+            </a>
+        </div>
+    </div>
 
-<p>
-	<a asp-action="CreateComment" asp-route-taskId = "@Model.Id" asp-route-listId="@ViewData["ListId"]">Create New Comment</a>
-</p>
+    <div class="card border-0 shadow-lg rounded-3 overflow-hidden">
+        <div class="card-body p-4">
+            <dl class="row mb-0">
+                <dt class="col-sm-3 text-uppercase text-dark small fw-bold mb-3">
+                    @Html.DisplayNameFor(model => model.Id)
+                </dt>
+                <dd class="col-sm-9 font-monospace text-secondary mb-3">
+                    @Html.DisplayFor(model => model.Id)
+                </dd>
+                <dt class="col-sm-3 text-uppercase text-dark fw-bold mb-3">
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+                <dd class="col-sm-9 font-monospace text-secondary mb-3">
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+                <dt class="col-sm-3 text-uppercase text-dark fw-bold mb-3">
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd class="col-sm-9 font-monospace text-secondary mb-3">
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+                <dt class="col-sm-3 text-uppercase text-dark fw-bold mb-3">
+                    @Html.DisplayNameFor(model => model.DueDate)
+                </dt>
+                <dd class="col-sm-9 font-monospace text-secondary mb-3">
+                    @Html.DisplayFor(model => model.DueDate)
+                </dd>
+            </dl>
+        </div>
+    </div>
 
-<!-- Details Table -->
-<table class="table2">
-	<thead>
-		<tr>
-			<th id="display">
-				@Html.DisplayNameFor(model => model.Name)
-			</th>
-			<td>
-				| @Html.ActionLink("Add", "AddTag", new {taskId = Model.Id, listId = ViewData["ListId"]})
-			</td>
-		</tr>
-	</thead>
-	<tbody>
+    <div class="card border-0 shadow-lg rounded-3 overflow-hidden mt-5">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h3 class="fw-bold text-dark mb-1">Tags</h3>
+                </div>
+                <div>
+                    <a asp-action="AddTag" asp-controller="TodoTask"
+                       asp-route-taskId="@Model.Id"
+                       asp-route-listId="@ViewData["ListId"]"
+                       class="btn btn-primary rounded-2 px-4 fw-bold">
+                        Add Tag
+                    </a>
+                </div>
+            </div>
 
-		@foreach (var tag in Tags)
-		{
-			<tr>
-				<td>
-					@Html.DisplayFor(modelItem => tag.Name)
-				</td>
-				<td>
-					@Html.ActionLink("Delete", "DeleteTag", new { tagId = tag.Id, taskId = Model.Id, listId = ViewData["ListId"] })
-				</td>
-			</tr>
-		}
-	</tbody>
-</table>
+            <div class="table-responsive">
+                <table class="table mb-0">
+                    <thead class="table-light">
+                    <tr>
+                        <th class="p-3 text-uppercase text-muted fw-bold small">
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th class="p-3 text-end text-uppercase text-muted fw-bold small">
+                            Actions
+                        </th>
+                    </tr>
+                    </thead>
 
-<table class="table">
-	<thead>
-		<tr>
-			<th>
-				@Html.DisplayNameFor(model => model.Id)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Description)
-			</th>
-			<th></th>
-		</tr>
-	</thead>
-	<tbody>
+                    @foreach (var item in Tags)
+                    {
+                        <tr class="border-bottom">
+                            <td class="font-monospace text-secondary fs-6">
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td class="text-end">
+                                <a asp-action="DeleteTag" asp-controller="TodoTask"
+                                   asp-route-tagId="@item.Id"
+                                   asp-route-taskId="@Model.Id"
+                                   asp-route-listId="@ViewData["ListId"]"
+                                   class="btn btn-outline-danger btn-sm rounded-pill px-3">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
 
-		@foreach (var item in Comments)
-		{
-			<tr>
-				<td>
-					@Html.DisplayFor(modelItem => item.Id)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Description)
-				</td>
-				<td>
-					@Html.ActionLink("Edit", "EditComment", new { id=item.Id, taskId = Model.Id, listId = ViewData["ListId"]}) |
-					@Html.ActionLink("Delete", "DeleteComment", new { id = item.Id, taskId = Model.Id, listId = ViewData["ListId"] })
-				</td>
-			</tr>
-		}
-	</tbody>
-</table>
+    <div class="card border-0 shadow-lg rounded-3 overflow-hidden mt-5">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h3 class="fw-bold text-dark mb-1">Comments</h3>
+                </div>
+                <div>
+                    <a asp-action="CreateComment"
+                       asp-controller="TodoTask"
+                       asp-route-taskId="@Model.Id"
+                       asp-route-listId="@ViewData["ListId"]"
+                       class="btn btn-primary rounded-2 px-4 fw-bold">
+                        Create New Comment
+                    </a>
+                </div>
+            </div>
 
-<div>
-	| <a asp-action="Index" asp-controller="TodoTask" asp-route-listId="@ViewData["ListId"]">Back to Task List</a> |
+            <div class="table-responsive">
+                <table class="table mb-0">
+                    <thead class="table-light">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Id)
+                        </th>
+                        <th>
+                            @Html.DisplayFor(model => model.Description)
+                        </th>
+                        <th>
+                            Actions
+                        </th>
+                    </tr>
+                    </thead>
+
+                    @foreach (var item in Comments)
+                    {
+                        <tbody>
+                        <tr class="border-bottom">
+                            <td class="font-monospace text-secondary fs-6">
+                                @Html.DisplayFor(modelItem => item.Id)
+                            </td>
+                            <td class="font-monospace text-secondary fs-6">
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                <a asp-controller="TodoTask"
+                                   asp-action="EditComment"
+                                   asp-route-id="@item.Id"
+                                   asp-route-taskId="@Model.Id"
+                                   asp-route-listId="@ViewData["ListId"]"
+                                   class="btn btn-outline-secondary btn-sm rounded-2 px-3 me-1">
+                                    Edit
+                                </a>
+                                <a asp-controller="TodoTask"
+                                   asp-action="DeleteComment"
+                                   asp-route-id="@item.Id"
+                                   asp-route-taskId="@Model.Id"
+                                   asp-route-listId="@ViewData["ListId"]"
+                                   class="btn btn-outline-danger btn-sm rounded-2 px3">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
 @* <div>

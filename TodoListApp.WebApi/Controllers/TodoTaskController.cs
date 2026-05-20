@@ -7,10 +7,6 @@ using TodoListApp.WebApi.Models;
 
 namespace TodoListApp.WebApi.Controllers;
 
-#pragma warning disable CS8604
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-
 [ApiController]
 [Authorize]
 [Route("api/[controller]/[action]")]

@@ -4,40 +4,54 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card border-0 shadow-lg rounded-3 overflow-hidden">
+                <div class="bg-danger text-danger p-4 text-center">
+                    <h3 class="text-white fw-bold mb-1">Delete Task?</h3>
+                    <p class="text-white small mb-0">This action can no be undone.</p>
+                </div>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DueDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DueDate)
-        </dd>
-    </dl>
+                <div class="card-body p-4">
+                    <p class="text-muted text-center mb-4">
+                        Are you sure you want to permanently delete the following task?
+                    </p>
 
-	<form asp-action="Delete" asp-route-listId="@ViewData["ListId"]">
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-		<a asp-action="Index" asp-route-listId="@ViewData["ListId"]">Back to List</a>
-    </form>
+                    <div class="bg-light p-3 rounded-3 mb-4 text-center">
+                        <div class="border border-secondary rounded-3 p-3 mb-4">
+                            <div class="mb-3">
+                                <label class="text-uppercase text-muted fw-bold small d-block mb-1">
+                                    @Html.DisplayNameFor(model => model.Name)
+                                </label>
+                                <span class="fs-5 fw-bold text-dark">
+                                    @Html.DisplayFor(model => model.Name)
+                                </span>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="text-uppercase text-muted fw-bold small d-block mb-1">
+                                    @Html.DisplayNameFor(model => model.Description)
+                                </label>
+                                <p class="text-secondary mb-0">
+                                    @Html.DisplayFor(model => model.Description)
+                                </p>
+                            </div>
+                        </div>
+
+                        <form asp-action="Delete" asp-controller="TodoTask" asp-route-taskId="@ViewData["TaskId"]">
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-danger btn-lg fw-bold shadow-lg mb-3">
+                                    Yes, Delete Task
+                                </button>
+                                <a asp-action="Index" asp-controller="TodoTask" class="btn btn-link btn-outline-secondary text-secondary text-decoration-none text-center mt-1">
+                                    Cancel and Go Back
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
